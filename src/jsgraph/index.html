@@ -4,8 +4,8 @@
   <head>
     <meta charset="utf-8">
 
-    <title>A graph</title>
-    <meta name="description" content="A test jsGraph page">
+    <title>Tangents on a graph</title>
+    <meta name="description" content="Adding tangents to a graph">
     <meta name="opatiny">
 
     <script language='javascript' src='https://www.lactame.com/github/NPellet/jsGraph/master/dist/jsgraph.min.js'></script>
@@ -13,7 +13,7 @@
   </head>
 
   <body>
-    <h1>A spectrum-generator module usage example</h1>
+    <h1>Adding tangents to a graph</h1>
     <p>This is an example of graph created using the spectrum-generator node module. Graphics are done using jsGraph.</p>
     <div id="graph"></div>
 
@@ -26,7 +26,7 @@
       var response = await fetch('./data.json');
       var values = await response.json();
 
-      response = await fetch('./annotations.json');
+      response = await fetch('../dev/lines.json');
       var annotations = await response.json();
 
 
@@ -60,7 +60,7 @@
       };
 
       var graph = new Graph('graph', options);
-      graph.resize(800, 600); // Resizes the container
+      graph.resize(800, 800); // Resizes the container
 
       let waveForm = Graph.newWaveform();
       let arrayX = values.x;
@@ -83,12 +83,15 @@
 
 // adding shapes
 // https://github.com/NPellet/jsGraph/tree/master/src/shapes
+
+
 console.log(annotations);
 for (let annotation of annotations) {
   let shape = graph.newShape(annotation.type, annotation.data);
   // shape.autoAxes();
   shape.draw();
 }
+
 
 
       graph.draw(); // Draw

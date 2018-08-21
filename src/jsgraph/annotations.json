@@ -30,8 +30,27 @@
           "y": 80
         }
       ],
-      "strokeWidth": "2px",
-      "strokeColor": "red"
+      "strokeWidth": "4px",
+      "strokeColor": "red",
+      "labels": [
+        {
+          "text": "Absolute in px",
+          "position": {
+            "x": "150px",
+            "y": "150px"
+          }
+        },
+        {
+          "text": "Absolute in axis unit",
+          "position": {
+            "x": 80,
+            "y": 80
+          },
+          "color": "green",
+          "size": 20,
+          "angle": 90
+        }
+      ]
     }
   },
   {
