@@ -1,0 +1,46 @@
+{
+  "name": "ml-spectra-test",
+  "version": "0.0.1",
+  "description": "",
+  "main": "./src/index.js",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "eslint": "eslint src",
+    "eslint-fix": "npm run eslint -- --fix",
+    "test": "run-s testonly eslint",
+    "testonly": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mljs/spectra-test.git"
+  },
+  "keywords": [
+    "machine",
+    "learning",
+    "data",
+    "mining",
+    "datamining"
+  ],
+  "author": "Océane Patiny <oceane@patiny.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mljs/spectra-test/issues"
+  },
+  "homepage": "https://github.com/mljs/spectra-test#readme",
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-cheminfo": "^1.17.2",
+    "eslint-plugin-import": "^2.10.0",
+    "eslint-plugin-jest": "^21.15.0",
+    "jest": "^23.4.0",
+    "npm-run-all": "^4.1.2"
+  },
+  "dependencies": {
+    "spectrum-generator": "^2.0.1"
+  }
+}
