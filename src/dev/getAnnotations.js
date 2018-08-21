@@ -2,14 +2,14 @@
 
 const fs = require('fs');
 
-const debug = require('debug')('dev/getlines');
+const debug = require('debug')('dev/getLines');
 
 const data = require('../jsgraph/data.json');
 
-const getMediator = require('./getMediator');
-const getPointOnLine = require('./getPointOnLine');
+const getMediator = require('./lineFunctions/getMediator');
+const getLine = require('./getAnnotation');
 
-debug(getLines(getMediator, data));
+getLines(getMediator, data, 10);
 
 /**
   * Creates a file lines.json with line annotations for all the points of a spetrum
@@ -20,26 +20,9 @@ debug(getLines(getMediator, data));
 function getLines(lineReturningFct, data, segmentLength) {
   var lines = [];
 
-
   for (var index = 0; index < data.x.length - 1; index++) {
-    var line = lineReturningFct(data, index);
-    debug('line =', line);
-
-    var dx = segmentLength * Math.cos(Math.atan(line.slope)) / 2;
-    var point1 = getPointOnLine(line, index - dx); // not index!It should be midPoint.x
-    var point2 = getPointOnLine(line, index + dx);
-
-    var segment = {
-      type: 'line',
-      data: {
-        position: [
-          point1,
-          point2
-        ],
-        strokeWidth: '2px',
-        strokeColor: 'green'
-      }
-    };
+    var segment = getLine(lineReturningFct, data, index, segmentLength);
+    debug('segment =', segment);
 
     lines.push(segment);
   }
