@@ -9,17 +9,31 @@ const debug = require('debug')('dev/linesIntersection');
   * @return {object} point - In the format {x: 3, y: 54}
   */
 function linesIntersection(line1, line2) {
-  if (line1.offset === line2.offset && line1.slope === line2.slope) {
-    debug('The two lines are overlapping.');
-  } else if (line1.slope === line2.slope) {
-    debug('The two lines are parallel.');
+  var point;
+  var x;
+  var y;
+  if (line1.slope === line2.slope) {
+    if ((line1.offset === line2.offset)) {
+      throw new Error('The two lines are overlapping.');
+    } else {
+      throw new Error('The two lines are parallel.');
+    }
+  } else if ((line1.xOffset || line2.xOffset) && (line1.xOffset === line2.xOffset)) {
+    throw new Error('The two lines are overlapping.');
   } else {
-    var x = (line1.offset - line2.offset) / (line1.slope - line2.slope);
-    var y = line1.slope * x + line1.offset;
-    var point = { x: x, y: y };
+    if (line1.xOffset) {
+      x = line1.xOffset;
+      y = line2.slope * x + line2.offset;
+    } else if (line2.xOffset) {
+      x = line2.xOffset;
+      y = line1.slope * x + line1.offset;
+    } else {
+      x = (line1.offset - line2.offset) / (line2.slope - line1.slope);
+      y = line1.slope * x + line1.offset;
+    }
+    point = { x: x, y: y };
     debug('intersection point:', point);
+    return point;
   }
-  return point;
 }
-
 module.exports = linesIntersection;

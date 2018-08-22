@@ -19,10 +19,12 @@ function getPerpendicular(line, point) {
     }
   };
 */
-
-  var slope = -1 / line.slope;
+  if (line.xOffset) {
+    var slope = 0;
+  } else {
+    slope = -1 / line.slope;
+  }
   var offset = point.y - slope * point.x;
-
   var perpendicular = { slope: slope, offset: offset };
 
   return perpendicular;
