@@ -3,7 +3,7 @@
 const data = require('../jsgraph/data.json');
 
 const getAnnotations = require('./getAnnotations');
-const getMediator = require('./lineFunctions/getMediator');
+const getTangent = require('./getTangent');
 
 
-getAnnotations(getMediator, data);
+getAnnotations(getTangent, data);
