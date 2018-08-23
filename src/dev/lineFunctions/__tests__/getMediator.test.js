@@ -1,8 +1,11 @@
 'use strict';
 
-const getLineFromPoints = require('../getLineFromPoints');
+const getMediator = require('../getMediator');
 
-test('getLineFromPoints', () => {
-  let result1 = getLineFromPoints({ x: 3, y: 6 }, { x: 4, y: 54 });
-  expect(result1).toEqual({ offset: -138, slope: 48 });
+test('getMediator', () => {
+  let result1 = getMediator({ x: [0, 4], y: [0, 4] });
+  expect(result1).toEqual({ offset: 4, slope: -1 });
+
+  let result2 = getMediator({ x: [0, 4], y: [0, 4] });
+  expect(result2).toEqual({ offset: 4, slope: -1 });
 });
