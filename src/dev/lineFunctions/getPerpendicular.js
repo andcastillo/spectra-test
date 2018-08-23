@@ -25,7 +25,7 @@ function getPerpendicular(line, point) {
   } else if (!isNaN(line.xOffset) && point.x !== line.xOffset) {
     throw new Error('The point you gave is not on the line.');
   } else {
-    if (line.xOffset) {
+    if (!isNaN(line.xOffset)) {
       var slope = 0;
     } else {
       slope = -1 / line.slope;

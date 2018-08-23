@@ -1,7 +1,5 @@
 'use strict';
 
-const debug = require('debug')('dev/getMediator');
-
 const getPerpendicular = require('./getPerpendicular');
 // const getLineFromPoints = require('./getLineFromPoints');
 
@@ -26,8 +24,6 @@ function getMediator(data, index = 0) {
     var slope = (ys[index + 1] - ys[index]) / (xs[index + 1] - xs[index]);
     var offset = ys[index] - slope * xs[index];
     line = { slope: slope, offset: offset };
-
-    debug('line =', line);
   }
 
   var midPoint = {

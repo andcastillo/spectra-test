@@ -1,7 +1,5 @@
 'use strict';
 
-const debug = require('debug')('dev/linesIntersection');
-
 /**
  * Intersection point of two lines
  * @param {object} [line1] - In the format { slope: -0.33, offset: 55 }
@@ -35,7 +33,6 @@ function linesIntersection(line1, line2) {
       y = line1.slope * x + line1.offset;
     }
     point = { x: x, y: y };
-    debug('intersection point:', point);
     return point;
   }
 }
