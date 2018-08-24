@@ -1,46 +1,50 @@
 'use strict';
 
-const debug = require('debug')('dev/getTangent');
-
-const data = require('../jsgraph/data.json');
-
 const getMediator = require('./lineFunctions/getMediator');
 const getLineFromPoints = require('./lineFunctions/getLineFromPoints');
 const linesIntersection = require('./lineFunctions/linesIntersection');
 const getPerpendicular = require('./lineFunctions/getPerpendicular');
-const getAnnotations = require('./getAnnotations');
-
-var tangent = getAnnotations(getTangent, data, { from: 2, to: 3 }); // getLine returns an annotation object
-
-debug('tangent annotations:', tangent);
-
-debug('tangent =', getTangent(data, 2));
 
 /**
-  * Returns a line tangent to a point on a spectrum
-  * @param {object} [data] - Your spectrum data in the format {x:[x1, x2, ...], y:[y1, y2, ...]}
-  * @param {number} [index = 1] - Index of the data corresponding to the point you're interested in finding the tangent (0 = first value in the data)
-  * @param {object} [options={}]
-  * @return {object} tangent
-  */
-function getTangent(data, index) {
-  var mediator1 = getMediator(data, index - 1);
-  var mediator2 = getMediator(data, index);
-  var mediator3 = getMediator(data, index + 1);
+ * Returns a line tangent to a point on a spectrum
+ * @param {object} [data] - Your spectrum data in the format {x:[x1, x2, ...], y:[y1, y2, ...]}
+ * @param {number} [index = 1] - Index of the data corresponding to the point you're interested in finding the tangent (0 = first value in the data)
+ * @param {object} [options={}]
+ * @param {number} [options.threshold = 1e-14] - Over this uncertainty, returns an error message
+ * @return {object} tangent
+ */
+function getTangent(data, index, options = {}) {
+  const { threshold = 1e-2 } = options;
+
+  var xs = data.x;
+  var ys = data.y;
+
+  var previousPoint = { x: xs[index - 1], y: ys[index - 1] };
+  var point = { x: xs[index], y: ys[index] };
+  var nextPoint = { x: xs[index + 1], y: ys[index + 1] };
+
+  var mediator1 = getMediator(previousPoint, point, { threshold: threshold });
+  var mediator2 = getMediator(point, nextPoint, { threshold: threshold });
+  var mediator3 = getMediator(previousPoint, nextPoint, {
+    threshold: threshold
+  });
 
   var centerPoint1 = linesIntersection(mediator1, mediator2);
   var centerPoint2 = linesIntersection(mediator2, mediator3);
-  var centerPoint3 = linesIntersection(mediator3, mediator1);
-  if (centerPoint1 === centerPoint2 === centerPoint3) {
-    var centerPoint = centerPoint1;
+
+  var diffX = Math.abs(centerPoint1.x - centerPoint2.x);
+  var diffY = Math.abs(centerPoint1.y - centerPoint2.y);
+
+  if (diffX > threshold || diffY > threshold) {
+    throw new Error(
+      `The three mediators do not intercept in a unique point. index: ${index} differences: x ${diffX}  y ${diffY}  VS threshold ${threshold}`
+    );
   } else {
-    debug('centerPoint1:', centerPoint1);
-    debug('centerPoint2:', centerPoint2);
-    debug('centerPoint3:', centerPoint3);
-    throw new Error('The three mediators do not intercept in a unique point.');
+    var centerPoint = centerPoint1;
   }
-  var radiusLine = getLineFromPoints(centerPoint, { x: data.x[index], y: data.y[index] });
-  var tangent = getPerpendicular(radiusLine, { x: data.x[index], y: data.y[index] });
+
+  var radiusLine = getLineFromPoints(centerPoint, point);
+  var tangent = getPerpendicular(radiusLine, point, { threshold: threshold });
 
   return tangent;
 }

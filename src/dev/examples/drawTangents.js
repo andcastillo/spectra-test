@@ -4,5 +4,4 @@ const data = require('../../jsgraph/data.json');
 const getAnnotations = require('../getAnnotations');
 const getTangent = require('../getTangent');
 
-
-getAnnotations(getTangent, data);
+getAnnotations(getTangent, data, { threshold: 1e-10 });
