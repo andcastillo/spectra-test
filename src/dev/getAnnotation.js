@@ -7,7 +7,7 @@ const data = require('../jsgraph/data.json');
 const getMediator = require('./lineFunctions/getMediator');
 const getPointOnLine = require('./lineFunctions/getPointOnLine');
 
-debug('annotation =', getAnnotation(getMediator, data, 4));
+getAnnotation(getMediator, data, 4);
 
 /**
  * Creates a file line.json with line annotation for a point of a spetrum
@@ -22,16 +22,13 @@ function getAnnotation(lineReturningFct, data, index, options = {}) {
   const { segmentLength = 10 } = options;
 
   var line = lineReturningFct(data, index);
-  debug('line =', line);
+  debug('line', line);
 
-  var dx = (segmentLength * Math.cos(Math.atan(line.slope))) / 2;
-  debug('segmentLength:', segmentLength);
-  debug('line slope:', line.slope);
-  debug('dx:', dx);
   if (!isNaN(line.xOffset)) {
     var point1 = { x: line.xOffset, y: data.y[index] - segmentLength / 2 };
     var point2 = { x: line.xOffset, y: data.y[index] + segmentLength / 2 };
   } else {
+    var dx = (segmentLength * Math.cos(Math.atan(line.slope))) / 2;
     point1 = getPointOnLine(line, data.x[index] - dx); // not data.x[index]!It should be midPoint.x (for some cases)
     point2 = getPointOnLine(line, data.x[index] + dx);
   }
