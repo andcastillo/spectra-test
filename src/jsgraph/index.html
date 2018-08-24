@@ -1,23 +1,24 @@
 <!-- showing graph using jsGraph -->
 
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
 
-    <title>Tangents on a graph</title>
-    <meta name="description" content="Adding tangents to a graph">
-    <meta name="opatiny">
+<head>
+  <meta charset="utf-8">
 
-    <script language='javascript' src='https://www.lactame.com/github/NPellet/jsGraph/master/dist/jsgraph.min.js'></script>
+  <title>Drawing tangents</title>
+  <meta name="description" content="Adding tangents to a graph">
+  <meta name="opatiny">
 
-  </head>
+  <script language='javascript' src='https://www.lactame.com/github/NPellet/jsGraph/master/dist/jsgraph.min.js'></script>
 
-  <body>
-    <h1>Adding tangents to a graph</h1>
-    <p>This is an example of graph created using the spectrum-generator node module. Graphics are done using jsGraph.</p>
-    <div id="graph"></div>
+</head>
 
-    <script>  
+<body>
+  <h1>Adding tangents to a graph</h1>
+  <p>This is an example of graph created using the spectrum-generator node module. Graphics are done using jsGraph.</p>
+  <div id="graph"></div>
+
+  <script>  
     // fetching data
 
     createGraph();
@@ -32,28 +33,28 @@
 
 
       // options for zoom 
-      let options={
+      let options = {
         plugins: {
           zoom: {
             zoomMode: 'xy'
           }
         },
-        mouseActions:[
+        mouseActions: [
           {
             plugin: 'zoom',
             shift: false,
             ctrl: false
-          },{
+          }, {
             plugin: 'zoom',
             type: 'mousewheel',
             options: {
               direction: 'y'
             }
-          },{
+          }, {
             plugin: 'zoom',
             type: 'dblclick',
             options: {
-                mode: 'total'
+              mode: 'total'
             }
           }
         ]
@@ -65,38 +66,39 @@
       let waveForm = Graph.newWaveform();
       let arrayX = values.x;
       let arrayY = values.y;
-      waveForm.setData( arrayY, arrayX);
-  
+      waveForm.setData(arrayY, arrayX);
+
 
       graph.newSerie('line serie', {}, 'line') // Creates a new serie
         .autoAxis() // Assigns axes
-        .setWaveform( waveForm )
+        .setWaveform(waveForm)
 
       var modifiers = []; // We can define a specific style for some points in the scatter plot
       // modifiers[20] = { shape: 'circle', r: 12, fill: 'rgba(0, 100, 255, 0.3)', stroke: 'rgb(0, 150, 255)' };
 
       graph.newSerie('scatter serie', {}, 'scatter') // Creates a new serie
         .autoAxis() // Assigns axes
-        .setWaveform( waveForm )
-        .setStyle( { shape: 'circle', r: 4, fill: 'red', stroke: 'blue' }, modifiers)
+        .setWaveform(waveForm)
+        .setStyle({ shape: 'circle', r: 4, fill: 'red', stroke: 'blue' }, modifiers)
 
 
-// adding shapes
-// https://github.com/NPellet/jsGraph/tree/master/src/shapes
+      // adding shapes
+      // https://github.com/NPellet/jsGraph/tree/master/src/shapes
 
 
-console.log(annotations);
-for (let annotation of annotations) {
-  let shape = graph.newShape(annotation.type, annotation.data);
-  // shape.autoAxes();
-  shape.draw();
-}
+      console.log(annotations);
+      for (let annotation of annotations) {
+        let shape = graph.newShape(annotation.type, annotation.data);
+        // shape.autoAxes();
+        shape.draw();
+      }
 
 
 
       graph.draw(); // Draw
     }
-    
-    </script>
-  </body>
+
+  </script>
+</body>
+
 </html>
