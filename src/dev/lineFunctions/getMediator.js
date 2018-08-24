@@ -1,36 +1,29 @@
 'use strict';
 
 const getPerpendicular = require('./getPerpendicular');
-// const getLineFromPoints = require('./getLineFromPoints');
-
-// const data = require('../jsgraph/data.json');
-
-// debug(getMediator(data, 1));
+const getLineFromPoints = require('./getLineFromPoints');
+const getMidpoint = require('./getMidpoint');
 
 /**
- * Returns the mediator to a point on a line
- * @param {object} [data] - Your spectrum data in the format {x:[x1, x2, ...], y:[y1, y2, ...]}
- * @param {number} [index] - First of the two points defining the line
+ * Returns the mediator of a segment defined by two points
+ * @param {object} [point1] - First of the two points defining the segment in the format { x: 42, y:5 }
+ * @param {object} [point2] - Second point defining the segment in the format { x: 42, y:5 }
+ * @param {object} [options={}]
+ * @param {number} [options.threshold = 1e-14] - Over this uncertainty, returns an error message
  * @return {object} mediator - In the format { slope: -0.33, offset: 55 }
  */
-function getMediator(data, index = 0) {
-  var xs = data.x;
-  var ys = data.y;
-
-  if (xs[index] === xs[index + 1]) {
-    var line = { xOffset: xs[index] };
+function getMediator(point1, point2, options = {}) {
+  const { threshold = 1e-14 } = options;
+  if (point1.x === point2.x) {
+    var line = { xOffset: point1.x };
   } else {
     // getLineFromPoints() possible to use in this case?
-    var slope = (ys[index + 1] - ys[index]) / (xs[index + 1] - xs[index]);
-    var offset = ys[index] - slope * xs[index];
-    line = { slope: slope, offset: offset };
+    line = getLineFromPoints(point1, point2);
   }
 
-  var midPoint = {
-    x: (xs[index + 1] + xs[index]) / 2,
-    y: (ys[index + 1] + ys[index]) / 2
-  };
-  var mediator = getPerpendicular(line, midPoint);
+  var midpoint = getMidpoint(point1, point2);
+
+  var mediator = getPerpendicular(line, midpoint, { threshold: threshold });
 
   return mediator;
 }
