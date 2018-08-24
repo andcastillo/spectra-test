@@ -14,7 +14,7 @@ test('getPerpendicular', () => {
 
   // testing error messages
   function notOnLine() {
-    getPerpendicular({ slope: 3, offset: 92 }, { slope: 1, offset: 3 });
+    getPerpendicular({ slope: 3, offset: 92 }, { x: 1, y: 3 });
   }
-  expect(notOnLine).toThrowError('The point you gave is not on the line.');
+  expect(notOnLine).toThrowError(/The point you gave is not on the line./);
 });
