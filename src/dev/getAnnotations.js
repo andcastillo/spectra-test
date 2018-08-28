@@ -19,18 +19,20 @@ getAnnotations(getMediator, data);
   * @param {number} [options.segmentLength = 10] - Length of the segment / line in graph units
   * @param {number} [options.from = 0] - Starting index value for which a line is desired
   * @param {number} [options.to = data.x.length] - Ending index value for which a line is desired. Default is lines for the whole graph.
+ * @param {number} [options.threshold = 1e-14] - Over this uncertainty, returns an error message
   */
 function getAnnotations(lineReturningFct, data, options = {}) {
   const {
     segmentLength = 10,
     from = 0,
-    to = data.x.length
+    to = data.x.length,
+    threshold = 1e-14
   } = options;
 
   var lines = [];
 
   for (var index = from; index < to - 1; index++) {
-    var segment = getLine(lineReturningFct, data, index, segmentLength);
+    var segment = getLine(lineReturningFct, data, index, options);
     debug('segment =', segment);
 
     lines.push(segment);

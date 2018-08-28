@@ -9,6 +9,10 @@
 function getLineFromPoints(point1, point2) {
   var line = {};
 
+  if (point1.x === point2.x && point1.y === point2.y) {
+    throw new Error('The same point was given twice.');
+  }
+
   if (point1.x === point2.x) {
     // considering vertical lines
     line = { xOffset: point1.x };

@@ -14,4 +14,10 @@ test('getLineFromPoints', () => {
 
   let result5 = getLineFromPoints({ x: 0, y: 0 }, { x: 0, y: 1 });
   expect(result5).toEqual({ xOffset: 0 });
+
+  // testing error messages
+  function samePoint() {
+    getLineFromPoints({ x: 0, y: 0 }, { x: 0, y: 0 });
+  }
+  expect(samePoint).toThrowError('The same point was given twice.');
 });

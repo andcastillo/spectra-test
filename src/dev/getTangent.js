@@ -14,7 +14,7 @@ const getPerpendicular = require('./lineFunctions/getPerpendicular');
  * @return {object} tangent
  */
 function getTangent(data, index, options = {}) {
-  const { threshold = 1e-2 } = options;
+  const { threshold = 1e-14 } = options;
 
   var xs = data.x;
   var ys = data.y;

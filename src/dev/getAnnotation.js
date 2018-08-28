@@ -19,9 +19,12 @@ getAnnotation(getMediator, data, 4);
  */
 
 function getAnnotation(lineReturningFct, data, index, options = {}) {
-  const { segmentLength = 10 } = options;
+  const {
+    segmentLength = 10,
+    threshold = 1e-14
+  } = options;
 
-  var line = lineReturningFct(data, index);
+  var line = lineReturningFct(data, index, options);
   debug('line', line);
 
   if (!isNaN(line.xOffset)) {
