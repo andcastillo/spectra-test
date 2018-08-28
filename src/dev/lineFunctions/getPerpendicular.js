@@ -20,11 +20,15 @@ function getPerpendicular(line, point, options = {}) {
   };
 */
 
-  var diff1 = Math.abs(point.y - (line.slope * point.x + line.offset));
-  var diff2 = Math.abs(point.x - line.xOffset);
+  var diff1 =
+    Math.abs(point.y - (line.slope * point.x + line.offset)) /
+    (point.y + (line.slope * point.x + line.offset)) /
+    2;
+  var diff2 = Math.abs(point.x - line.xOffset) / (point.x + line.xOffset) / 2;
+
   if (!isNaN(line.slope) && !isNaN(line.offset) && diff1 > threshold) {
     throw new Error(
-      `The point you gave is not on the line. Got a difference of ${diff1} and threshold is ${threshold}`
+      `The point you gave is not on the line. Got a ratio of ${diff1} and threshold is ${threshold}`
     );
   } else if (!isNaN(line.xOffset) && diff2 > threshold) {
     throw new Error('The point you gave is not on the line.');
